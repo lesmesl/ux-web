@@ -233,7 +233,8 @@
   <div class="login-card z-depth-1">
     <p class="card-title">CREA TU CUENTA</p>
     <div class="row">
-      <form class="col s12" id="login-form">
+      <form class="col s12" id="loginForm">
+
         <div class="row">
           <div class="input-field col s12">
             <input id="email" type="email" class="validate" required>
@@ -273,26 +274,19 @@
 
   <!-- Inicializar sidenav -->
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      var elems = document.querySelectorAll('.sidenav');
-      M.Sidenav.init(elems);
-
-      // Validación del formulario de inicio de sesión
-      document.getElementById('login-form').addEventListener('submit', function(event) {
+    document.getElementById('loginForm').addEventListener('submit', function(event) {
         event.preventDefault();
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
 
-        if (!email || !password) {
-          alert('Por favor, completa todos los campos.');
-        } else if (email === 'example@gmail.com' && password === 'pass123') {
-          // Si las credenciales son correctas, redirigir a dashboard.html
-          window.location.href = 'dashboard.html';
+        if (email && password) {
+            // Si las credenciales están llenas, redirigir a dashboard.html
+            window.location.href = 'dashboard.html';
         } else {
-          alert('Credenciales incorrectas. Por favor, inténtalo de nuevo.');
+            // Mostrar un mensaje de error
+            alert('Por favor, complete todos los campos.');
         }
-      });
     });
-  </script>
+</script>
 </body>
 </html>

@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Inicia Sesión</title>
+
+  <link rel="stylesheet" href="css/styles.css">
+    <!-- Importar Materialize CSS desde CDN -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+
+  <!-- Archivo CSS personalizado -->
+  <style>
+    body {
+      background-color: #fff;
+      font-family: 'Open Sans', sans-serif;
+    }
+    .btn {
+        text-transform: none !important;
+        
+    }
+
+    nav .nav-wrapper {
+      position: relative;
+      height: 104%;
+  }
+
+    .input-field .helper-text {
+        position: relative;
+        min-height: 18px;
+        display: block;
+        font-size: 12px;
+        color: rgb(0 0 0);
+    }
+    /* Navbar styles */
+    .nav-wrapper {
+      box-shadow: none;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .nav-wrapper .brand-logo {
+      font-weight: bold;
+      color: #000;
+      margin-left: 20px;
+    }
+
+    nav ul li a {
+      color: #000;
+      font-weight: bold;
+    }
+
+    /* Estilos del formulario */
+    .login-card {
+      background-color: #EAF4F4;
+      max-width: 550px;
+      margin: 60px auto;
+      padding: 30px;
+      border-radius: 10px;
+    }
+
+    .login-card .card-title {
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .input-field input[type=email], .input-field input[type=password] {
+      border: 1px solid #00796b;
+      border-radius: 5px;
+      padding-left: 10px;
+    }
+
+    .input-field input[type=email]:focus, .input-field input[type=password]:focus {
+      border: 1px solid #00796b;
+      box-shadow: none;
+    }
+
+    .btn-primary {
+        background-color: #56A3A6;
+        width: 50%;
+        border-radius: 40px;
+      }
+
+    .divider-custom {
+      margin: 20px 0;
+      text-align: center;
+    }
+
+    .divider-custom::before, .divider-custom::after {
+      content: '';
+      width: 100px;
+      height: 1px;
+      background-color: #ccc;
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+    .divider-custom::before {
+      margin-right: 10px;
+    }
+
+    .divider-custom::after {
+      margin-left: 10px;
+    }
+
+    .btn-google {
+        border: 2px solid #56A3A6;
+        color: #56A3A6;
+        background-color: white;
+        border-radius: 40px;
+        font-weight: 500;
+        padding-left: 105px;
+        padding-right: 105px;
+      }
+  
+      .btn-google:hover {
+          color: #fff;
+          background-color: #56A3A6;
+  
+        }
+   
+  
+    .create-account {
+      text-align: center;
+      margin-top: 30px;
+    }
+
+    .create-account button {
+      color: #E3B505 !important;
+      border: 2px solid #E3B505;
+      background-color: white;
+      padding: 10px 30px;
+      border-radius: 25px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .create-account button:hover {
+      background-color: #E3B505;
+
+    }
+    
+    .create-account button a {
+        color: #E3B505 !important;
+      }
+
+      .create-account button a:hover {
+        color: #fff !important;
+      }
+
+    .create-account button:hover {
+      background-color: #E3B505;
+      color: white;
+    }
+
+    .nav-wrapper .active {
+        color: #084C61 !important;
+        font-weight: bold;
+        background-color: #56A3A6;
+      }
+
+      .input-field.col label {
+        left: 1.75rem;
+    }
+    .google{
+        text-align-last: center;
+    }
+    .input-field>label:not(.label-icon).active {
+        -webkit-transform: translateY(-14px) scale(0.8);
+        transform: translateY(-14px) scale(0.8);
+        -webkit-transform-origin: 0 0;
+        transform-origin: 0 0;
+        background-color: white;
+        max-width: auto;
+        color: #000;
+    }
+
+    .input-field>label:not(.label-icon).active {
+        -webkit-transform: translateY(-14px) scale(0.8);
+        transform: translateY(-14px) scale(0.8);
+        -webkit-transform-origin: 0 0;
+        transform-origin: 0 0;
+        background-color: white;
+        max-width: 28%;
+        color: #000;
+    }
+
+    .input-field .helper-text {
+        color: #000;
+        font-style: normal;
+
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav>
+    <div class="nav-wrapper white">
+        <a href="#" class="brand-logo" style="font-weight: bold; color: #000000; font-size:20px; margin: 0 0 0 20px;">
+            <!-- Logo -->
+            <img src="images/logo.png" alt="Logo" style="height: 40px; vertical-align: middle; margin-right: 10px;">
+            Management Timer
+          </a>      <!-- Ícono del menú para dispositivos móviles -->
+      <a href="#" data-target="mobile-demo" class="sidenav-trigger right">
+        <i class="material-icons" style="color: #000;">menu</i>
+      </a>
+      <!-- Menú de navegación para pantallas grandes -->
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+        <li><a href="#" class="active">Inicio</a></li>
+        <li><a href="#">Técnicas</a></li>
+        <li><a href="#">Conoce la APP</a></li>
+        <li><a href="#">Contacto</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Menú lateral para dispositivos móviles -->
+  <ul class="sidenav" id="mobile-demo">
+    <li><a href="#" class="active">Inicio</a></li>
+    <li><a href="#">Técnicas</a></li>
+    <li><a href="#">Conoce la APP</a></li>
+    <li><a href="#">Contacto</a></li>
+  </ul>
+
+  <!-- Formulario de inicio de sesión -->
+  <div class="login-card z-depth-1">
+    <p class="card-title">CREA TU CUENTA</p>
+    <div class="row">
+      <form class="col s12" id="login-form">
+        <div class="row">
+          <div class="input-field col s12">
+            <input id="email" type="email" class="validate" required>
+            <label for="email">Correo electrónico</label>
+            <span class="helper-text">Ingresa tu email</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s12">
+            <input id="password" type="password" class="validate" required>
+            <label for="password">Contraseña</label>
+            <span class="helper-text">Ingresa tu contraseña</span>
+          </div>
+        </div>
+        <div class="row google">
+          <button class="btn waves-effect waves-light btn-primary" type="submit">Ingresar con email</button>
+
+        </div>
+      </form>
+    </div>
+
+    <div class="divider-custom">ó</div>
+
+    <div class="row google">
+        <button class="btn waves-effect waves-light btn-google" type="button">
+          <i class="material-icons left">add</i>Ingresa con Google
+        </button>
+      </div>
+
+  </div>
+  <div class="create-account">
+    <p>¿Ya tienes una cuenta?</p>
+    <button> <a href="index.html">Ingresar</a> </button>
+  </div>
+  <!-- Importar Materialize JS desde CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+  <!-- Inicializar sidenav -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var elems = document.querySelectorAll('.sidenav');
+      M.Sidenav.init(elems);
+
+      // Validación del formulario de inicio de sesión
+      document.getElementById('login-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+
+        if (!email || !password) {
+          alert('Por favor, completa todos los campos.');
+        } else if (email === 'example@gmail.com' && password === 'pass123') {
+          // Si las credenciales son correctas, redirigir a dashboard.html
+          window.location.href = 'dashboard.html';
+        } else {
+          alert('Credenciales incorrectas. Por favor, inténtalo de nuevo.');
+        }
+      });
+    });
+  </script>
+</body>
+</html>

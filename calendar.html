@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Calendario y Tareas</title>
+
+  <!-- Importar Materialize CSS desde CDN -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+
+  <!-- Archivo CSS personalizado -->
+  <style>
+    /* Navbar active color */
+    .nav-wrapper .active {
+      color: #084C61 !important;
+      font-weight: bold;
+      background-color: #56A3A6;
+    }
+
+    /* Botón de Salir */
+    .btn-exit {
+      color: #DB504A !important;
+      border: 3px solid #DB504A !important;
+      background-color: white !important;
+      border-radius: 5px !important;
+      padding: 0 50px;
+      text-transform: capitalize;
+    }
+
+    .brand-logo {
+        font-weight: bold;
+        color: #000000;
+        float: 20px;
+        margin: 10px;
+    }
+
+    nav ul li a {
+        color: #000;
+    }
+
+    /* Estilos para el calendario */
+    .calendar {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 10px;
+    }
+
+    .calendar-day {
+      background-color: #82b4b7;
+      padding: 10px;
+      border-radius: 8px;
+      color: #fff;
+      text-align: center;
+      position: relative;
+      cursor: pointer;
+      min-height: 90px;
+    }
+
+    .calendar-day[data-tasks] {
+      background-color: #56A3A6 !important;
+    }
+
+    .task-list {
+      background-color: #EBF4F4;
+      padding: 10px;
+      border-radius: 24px;
+      margin: 10px 0;
+    }
+
+    .task-card {
+      display: flex;
+      background-color: #56A3A6;
+      margin-bottom: 10px;
+      padding: 10px;
+      border-radius: 8px;
+      color: #fff;
+      align-items: center;
+    }
+
+    .task-card .task-icon {
+      margin-right: 10px;
+    }
+
+    .task-card.selected {
+      border: 2px solid #56A3A6;
+      background-color: #EBF4F4;
+      color: #56A3A6;
+    }
+
+    .task-list-title {
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+
+    .calendar-arrows {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .calendar-arrows i {
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    .task-meta {
+      font-size: 0.9rem;
+      margin-top: 5px;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .no-tasks {
+      color: red;
+      margin-top: 10px;
+      text-align: center;
+    }
+
+    .small-text {
+      font-size: 0.8rem;
+      margin-top: 5px;
+      color: #fff;
+    }
+
+
+    
+    .row {
+        margin-left: 25px;
+        margin-right: 36px;
+        margin-bottom: 35px;
+        margin-top: 47px;
+    }
+
+    .card_parent {
+        background-color: #EBF4F4;
+        -webkit-box-shadow : none;
+        box-shadow: none;
+    }
+
+     .calendar-month {
+        background-color: #EBF4F4;
+        border-radius: 24px;
+
+    }
+    .mont-title{
+        font-size: 24px;
+        font-weight: 700;
+        margin-bottom: 40px;
+    }
+
+    .mont-title {
+        font-size: 15px;
+        font-weight: 700;
+        margin-bottom: 40px;
+        width: 277px;
+        background-color: #A1CBCD;
+        padding: 7px;
+        text-align: center;
+    }
+
+    .calendar-arrows {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+        /* width: 1059px; */
+        margin-top: 25px;
+    }
+
+    .calendar-arrows i {
+        font-size: 70px;
+        cursor: pointer;
+        color: #56A3A6;
+
+    }
+
+    .row .col {
+        float: left;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        padding: 0 3.75rem;
+        min-height: 1px;
+    }
+    .card-title{
+        font-size: 16px;
+        font-weight: 700;
+        margin: 20px
+    }
+
+    nav .nav-wrapper {
+      position: relative;
+      height: 104%;
+  }
+
+    .week
+    {
+        background-color: transparent;
+        padding: 10px;
+        border-radius: 8px;
+        color: #000;
+        font-weight: bold;
+
+    }
+
+    .modal {
+      border-radius: 15px;
+      background-color: #D9534F; /* Color de fondo rojo */
+      color: white;
+    }
+    
+    .modal .modal-content h4 {
+      color: white;
+    }
+    
+    .modal-footer .btn-flat {
+      color: white;
+    }
+    
+    .modal-footer .btn-flat:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+    
+    .modal .modal-footer {
+      border-radius: 0 0 2px 2px;
+      background-color: #D9534F;; 
+      padding: 4px 6px;
+      height: 56px;
+      width: 100%;
+      text-align: right;
+  }
+
+  .square-img {
+    border-style: none;
+    position: absolute;
+    width: 42px;
+    height: 42px;
+    overflow: hidden;
+    left: 15px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+    .collection .collection-item:last-child {
+      border-bottom: none;
+      margin-top: 13px;
+      background-color: #56A3A6;
+      color: #fff;
+    }
+
+    .collection .collection-item.avatar {
+      min-height: 84px;
+      padding-left: 72px;
+      position: relative;
+      background-color: #56A3A6;
+      font-family: Roboto, serif;
+      color: #fff;
+    }
+
+    .collection {
+      border: none
+
+    }
+
+    .task-list {
+      background-color: #EBF4F4;
+      padding: 10px;
+      border-radius: 24px;
+      margin: 0px -18px;
+  }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav>
+    <div class="nav-wrapper white">
+    <a href="#" class="brand-logo" style="font-weight: bold; color: #000000; font-size:20px; margin: 0 0 0 20px;">
+            <!-- Logo -->
+            <img src="images/logo.png" alt="Logo" style="height: 40px; vertical-align: middle; margin-right: 10px;">
+            Management Timer
+    </a> 
+         <a href="#" data-target="mobile-demo" class="sidenav-trigger right"><i class="material-icons" style="color: #000;">menu</i></a>
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+        <li><a href="dashboard.html">Dashboard</a></li>
+        <li><a href="devices.html">Dispositivos</a></li>
+        <li><a href="#" class="active">Cronograma</a></li>
+        <li><a href="#exit-modal" class="btn btn-exit waves-effect waves-light modal-trigger" style="margin-left: 20px;">Salir</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Menú para dispositivos móviles -->
+  <ul class="sidenav" id="mobile-demo">
+    <li><a href="dashboard.html">Dashboard</a></li>
+    <li><a href="devices.html">Dispositivos</a></li>
+    <li><a href="#"  class="active">Cronograma</a></li>
+    <li><a href="#exit-modal" class="btn btn-exit waves-effect waves-light modal-trigger" style="margin-left: 20px;">Salir</a></li>
+  </ul>
+
+  <!-- Contenido principal -->
+  <div class="">
+
+    <div class="row">
+        <p class="card-title">Cronograma de ejecución</p>
+
+      <!-- Sección de Calendario -->
+      <div class="col s12 m8 calendar-month">
+        <div class="calendar-arrows">
+          <i class="material-icons">chevron_left</i>
+          <span class="mont-title">Febrero 2024</span>
+          <i class="material-icons">chevron_right</i>
+        </div>
+        <div class="calendar">
+          <!-- Días de la semana -->
+          <div class="calendar-day week">S</div>
+          <div class="calendar-day week">M</div>
+          <div class="calendar-day week">T</div>
+          <div class="calendar-day week">W</div>
+          <div class="calendar-day week">T</div>
+          <div class="calendar-day week">F</div>
+          <div class="calendar-day week">S</div>
+
+          <!-- Días del mes -->
+          <div class="calendar-day" data-day="1" data-tasks>
+            1
+            <p class="small-text">Tarea 1, Tarea 2</p>
+          </div>
+          <div class="calendar-day" data-day="2">2</div>
+          <div class="calendar-day" data-day="3" data-tasks>
+            3
+            <p class="small-text">Tarea 3, Tarea 4</p>
+          </div>
+          <div class="calendar-day">4</div>
+          <div class="calendar-day">5</div>
+          <div class="calendar-day">6</div>
+          <div class="calendar-day">7</div>
+          <div class="calendar-day" data-day="8" data-tasks>
+            8
+            <p class="small-text">Tarea 5, Tarea 6</p>
+          </div>
+          <div class="calendar-day">9</div>
+          <div class="calendar-day">10</div>
+          <div class="calendar-day">11</div>
+          <div class="calendar-day">12</div>
+          <div class="calendar-day">13</div>
+          <div class="calendar-day">14</div>
+          <div class="calendar-day">15</div>
+          <div class="calendar-day">16</div>
+          <div class="calendar-day">17</div>
+          <div class="calendar-day">18</div>
+          <div class="calendar-day">19</div>
+          <div class="calendar-day">20</div>
+          <div class="calendar-day">21</div>
+          <div class="calendar-day">22</div>
+          <div class="calendar-day">23</div>
+          <div class="calendar-day">24</div>
+          <div class="calendar-day">25</div>
+          <div class="calendar-day">26</div>
+        </div>
+      </div>
+
+      <!-- Sección de Tareas -->
+      <div class="col s12 m4">
+        <div class="task-list">
+          <div class="task-list-title">Tareas para el día seleccionado</div>
+
+          <!-- Contenedor para mostrar tareas o mensaje de "No hay tareas" -->
+          <div id="task-content">
+            <!-- Tareas Día 1 -->
+            <div id="tasks-day-1" class="task-container hidden">
+              <ul class="collection">
+                <li class="collection-item avatar">
+                  <img src="images/Thumbnail.png" alt="Celular" class="square-img">
+                  <span class="title"  style="font-weight: bold;">Tarea #1 - Revision Avances</span>
+                  <p class="task-meta">Revision Avances Junta General</p> <br>
+                  <p class="task-meta">Tiempo: 2 horas - Prioridad: Alta</p>
+  
+                  <a href="#!" class="secondary-content"><i class="material-icons"></i></a>
+                </li>
+                <li class="collection-item avatar">
+                  <img src="images/Thumbnail.png" alt="Celular" class="square-img">
+                  <span class="title"  style="font-weight: bold;">Tarea #2 - Consulta General</span>
+                  <p class="task-meta">consulta Dra. Lina Perez</p> <br>
+                  <p class="task-meta">Tiempo: 2 horas - Prioridad: Alta</p>
+  
+                  <a href="#!" class="secondary-content"><i class="material-icons"></i></a>
+                </li>
+               
+              </ul>
+            </div>
+
+            <!-- Tareas Día 3 -->
+            <div id="tasks-day-3" class="task-container hidden">
+              <ul class="collection">
+                <li class="collection-item avatar">
+                  <img src="images/Thumbnail.png" alt="Celular" class="square-img">
+                  <span class="title"  style="font-weight: bold;">Tarea #3 - Evaluación Final</span>
+                  <p class="task-meta">Realizar evaluación Dra. Mathra Gomez</p> <br>
+                  <p class="task-meta">Tiempo: 2 horas - Prioridad: Alta</p>
+  
+                  <a href="#!" class="secondary-content"><i class="material-icons"></i></a>
+                </li>
+                <li class="collection-item avatar">
+                  <img src="images/Thumbnail.png" alt="Celular" class="square-img">
+                  <span class="title"  style="font-weight: bold;">Tarea #4 - Reunión Proyecto</span>
+                  <p class="task-meta">Realizar evaluación Dra. Mathra Gomez</p> <br>
+                  <p class="task-meta">Tiempo: 2 horas - Prioridad: Alta</p>
+  
+                  <a href="#!" class="secondary-content"><i class="material-icons"></i></a>
+                </li>
+               
+              </ul>
+            </div>
+
+            <!-- Tareas Día 8 -->
+            <div id="tasks-day-8" class="task-container hidden">
+              <ul class="collection">
+                <li class="collection-item avatar">
+                  <img src="images/Thumbnail.png" alt="Celular" class="square-img">
+                  <span class="title"  style="font-weight: bold;">Tarea #6 - Evaluación Inicial</span>
+                  <p class="task-meta">Realizar evaluación Dra. Mathra Gomez</p> <br>
+                  <p class="task-meta">Tiempo: 2 horas - Prioridad: Alta</p>
+  
+                  <a href="#!" class="secondary-content"><i class="material-icons"></i></a>
+                </li>
+                <li class="collection-item avatar">
+                  <img src="images/Thumbnail.png" alt="Celular" class="square-img">
+                  <span class="title"  style="font-weight: bold;">Tarea #5 - Evaluación Inicial</span>
+                  <p class="task-meta">Realizar evaluación Dra. Mathra Gomez</p> <br>
+                  <p class="task-meta">Tiempo: 2 horas - Prioridad: Alta</p>
+  
+                  <a href="#!" class="secondary-content"><i class="material-icons"></i></a>
+                </li>
+               
+              </ul>
+            </div>
+
+            
+
+
+
+            <!-- Mensaje para días sin tareas -->
+            <div id="no-tasks-message" class="no-tasks hidden">No hay tareas asignadas</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <!-- Modal de confirmación para salir -->
+    <div id="exit-modal" class="modal">
+      <div class="modal-content">
+        <h4>Alerta</h4>
+        <p>¿Estás seguro que deseas salir?</p>
+      </div>
+      <div class="modal-footer">
+        <a href="index.html" class="modal-close waves-effect waves-green btn-flat">OK</a>
+        <a href="#!" class="modal-close waves-effect waves-red btn-flat">No</a>
+      </div>
+    </div>
+    
+  <!-- Importar Materialize JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+  <!-- Inicializar sidenav y calendario -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var elemsSidenav = document.querySelectorAll('.sidenav');
+      M.Sidenav.init(elemsSidenav);
+
+      var elemsModal = document.querySelectorAll('.modal');
+      M.Modal.init(elemsModal);
+
+      const days = document.querySelectorAll('.calendar-day[data-day]');
+      const taskContainers = document.querySelectorAll('.task-container');
+      const noTasksMessage = document.getElementById('no-tasks-message');
+
+      days.forEach(day => {
+        day.addEventListener('click', function() {
+          const selectedDay = this.getAttribute('data-day');
+          const tasksForDay = document.getElementById(`tasks-day-${selectedDay}`);
+
+          // Ocultar todas las tareas
+          taskContainers.forEach(container => {
+            container.classList.add('hidden');
+          });
+
+          // Ocultar mensaje de "No hay tareas"
+          noTasksMessage.classList.add('hidden');
+
+          // Si hay tareas para el día seleccionado, mostrar las tareas
+          if (tasksForDay) {
+            tasksForDay.classList.remove('hidden');
+          } else {
+            // Si no hay tareas, mostrar el mensaje
+            noTasksMessage.classList.remove('hidden');
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>

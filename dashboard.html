@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Dashboard</title>
+
+  <!-- Importar Materialize CSS desde CDN -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  
+  <!-- Archivo CSS personalizado -->
+  <style>
+    /* Navbar active color */
+    .nav-wrapper .active {
+      color: #084C61 !important;
+      font-weight: bold;
+      background-color: #56A3A6;
+    }
+
+    nav .nav-wrapper {
+      position: relative;
+      height: 104%;
+  }
+
+    /* Botón de Salir */
+    .btn-exit {
+        color: #DB504A !important;
+        border: 3px solid #DB504A !important;
+        background-color: white !important;
+        border-radius: 5px !important;
+        padding: 0 50px;
+        text-transform: capitalize;
+      }
+  
+
+    /* Métricas card */
+    .metric-card {
+      display: flex;
+      align-items: center;
+      padding: 33px;
+      border-radius: 21px;
+      max-width: 418px;
+      
+    }
+
+    .metric-icon {
+      font-size: 50px;
+      margin-right: 20px;
+    }
+
+    /* Tabs */
+    .tabs .tab a.active {
+      background-color: #56A3A6 !important;
+      color: white !important;
+    }
+
+
+    .brand-logo{
+        font-weight: bold;
+        color: #000000;
+        float:20px;
+        margin: 10px;
+    }
+
+    nav ul li a {
+        color: #000;
+      }
+
+      .row {
+        margin-left: 25px;
+        margin-right: 36px;
+        margin-bottom: 35px;
+        margin-top: 47px;
+    }
+
+    .card_parent {
+        background-color: #EBF4F4;
+        -webkit-box-shadow : none;
+        box-shadow: none;
+    }
+
+    .row .col.s12 {
+        background-color: #EBF4F4;
+        border-radius: 24px;
+
+    }
+
+    .number-racha{
+        font-size: 65px;
+        padding-right: 10px;
+    }
+
+    .card .card-title {
+        font-size: 16px;
+        font-weight: 700;
+        margin-bottom: 20px;
+    }
+
+    .row .col.s3 {
+        width: 33%;
+    }
+
+    .tabs {
+        position: absolute;
+        height: 43px;
+        width: 38%;
+        background-color: #56a3a6;
+
+    }
+
+    .tabs .tab a {
+        color: #084C61;
+        font-weight: bold;
+        text-transform: capitalize;
+        background-color: #56a3a6;
+    }
+
+    .red-cion{
+        color: red;
+    }
+    .gray-cion{
+        color: gray;
+    }
+    #lineasChart{
+        height: 409px !important;
+    }
+    .img_nothing{
+        width: 30%;
+        height: 30%;
+    }
+
+    .nothing{
+        text-align-last: center;
+    }
+
+    .tabs .indicator {
+        position: absolute;
+        bottom: 0;
+        height: 3px;
+        background-color: #595959;
+        will-change: left, right;
+        width: 77px;
+        justify-self: center;
+        display: block;
+    }
+
+    .tabs .tab a:hover, .tabs .tab a.active {
+        background-color: transparent;
+        color: #fff;
+    }
+
+    .modal {
+      border-radius: 15px;
+      background-color: #D9534F; /* Color de fondo rojo */
+      color: white;
+    }
+    
+    .modal .modal-content h4 {
+      color: white;
+    }
+    
+    .modal-footer .btn-flat {
+      color: white;
+    }
+    
+    .modal-footer .btn-flat:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+    
+    .modal .modal-footer {
+      border-radius: 0 0 2px 2px;
+      background-color: #D9534F;; 
+      padding: 4px 6px;
+      height: 56px;
+      width: 100%;
+      text-align: right;
+  }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav>
+    <div class="nav-wrapper white">
+        <a href="#" class="brand-logo" style="font-weight: bold; color: #000000; font-size:20px; margin: 0 0 0 20px;">
+            <!-- Logo -->
+            <img src="images/logo.png" alt="Logo" style="height: 40px; vertical-align: middle; margin-right: 10px;">
+            Management Timer
+          </a>        <a href="#" data-target="mobile-demo" class="sidenav-trigger right"><i class="material-icons" style="color: #000;">menu</i></a>
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+        <li><a href="#" class="active">Dashboard</a></li>
+        <li><a href="devices.html">Dispositivos</a></li>
+        <li><a href="calendar.html">Cronograma</a></li>
+        <li><a href="#exit-modal" class="btn btn-exit waves-effect waves-light modal-trigger" style="margin-left: 20px;">Salir</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Menú para dispositivos móviles -->
+  <ul class="sidenav" id="mobile-demo">
+    <li><a href="#" class="active">Dashboard</a></li>
+    <li><a href="devices.html">Dispositivos</a></li>
+    <li><a href="calendar.html">Cronograma</a></li>
+    <li><a href="#exit-modal" class="btn btn-exit waves-effect waves-light modal-trigger" style="margin-left: 20px;">Salir</a></li>
+  </ul>
+
+  <!-- Contenido principal -->
+  <div class="">
+    <!-- Card de Métricas Importantes -->
+    <div class="row">
+      <div class="col s12">
+        <div class="card  card_parent">
+          <div class="card-content left-align">
+            <span class="card-title">Métricas Importantes</span>
+            <div class="row">
+                <div class="col s12 m4">
+                  <div class="card  metric-card">
+                    <i class="large material-icons metric-icon">star_border</i>
+                    <span class="number-racha">7</span> <span> Horas dedicadas</span>
+                  </div>
+                </div>
+                <div class="col s12 m4">
+                  <div class="card  metric-card">
+                    <i class="large material-icons metric-icon gray-cion">assignment</i>
+                    <span class="number-racha">5</span> <span> Dias accediendo</span>
+                  </div>
+                </div>
+                <div class="col s12 m4">
+                  <div class="card  metric-card">
+                    <i class="large material-icons metric-icon red-cion">new_releases</i>
+                    <span class="number-racha">3</span> <span> Dias de racha</span>
+                  </div>
+                </div>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tres métricas en Cards -->
+
+
+    <!-- Card con Tabs -->
+    <div class="row">
+      <div class="col s12">
+        <div class="card  card_parent">
+          <div class="card-content">
+            <span class="card-title">Registro de tareas</span>
+            <ul class="tabs">
+              <li class="tab col s3"><a href="#tab1" class="active">Pendientes</a></li>
+              <li class="tab col s3"><a href="#tab2">Completadas</a></li>
+              <li class="tab col s3"><a href="#tab2">En Progreso</a></li>
+            </ul>
+          </div>
+
+          <!-- Contenido del primer tab -->
+          <div id="tab1" class="col s12">
+            <div class="row">
+              <!-- Primera card: Gráfico circular -->
+              <div class="col s12 m4">
+                <div class="card ">
+                  <div class="card-content">
+                    <canvas id="tortaChart" style="display: block; box-sizing: border-box; height: 400px; width: 800px;" width="800" height="400"></canvas>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Segunda card: Gráfico de barras -->
+              <div class="col s12 m8">
+                <div class="card  ">
+                  <div class="card-content">
+                    <canvas id="lineasChart" style="display: block; box-sizing: border-box; height: 400px; width: 800px;" width="800" height="400"></canvas>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Contenido del segundo tab (vacío por ahora) -->
+          <div id="tab2" class="col s12">
+            <div class="row">
+                  <div class="col s12 ">
+                  <div class="card  ">
+                    <div class="card-content nothing">
+                        <img src="images/image_nothing.png" class="img_nothing" alt="">
+                    </div>
+                  </div>
+                </div>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de confirmación para salir -->
+  <div id="exit-modal" class="modal">
+    <div class="modal-content">
+      <h4>Alerta</h4>
+      <p>¿Estás seguro que deseas salir?</p>
+    </div>
+    <div class="modal-footer">
+      <a href="index.html" class="modal-close waves-effect waves-green btn-flat">OK</a>
+      <a href="#!" class="modal-close waves-effect waves-red btn-flat">No</a>
+    </div>
+  </div>
+
+  <!-- Importar Materialize JS y Chart.js para los gráficos -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Inicializar sidenav y tabs -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var elemsSidenav = document.querySelectorAll('.sidenav');
+      M.Sidenav.init(elemsSidenav);
+      
+      var elemsTabs = document.querySelectorAll('.tabs');
+      M.Tabs.init(elemsTabs);
+    
+      var elemsModal = document.querySelectorAll('.modal');
+      M.Modal.init(elemsModal);
+
+      const DATA_COUNT = 5;
+      const NUMBER_CFG = {count: DATA_COUNT, min: 0, max: 100};
+    
+      const dataTorta = {
+        labels: ['Pendientes', 'Completada', 'En progreso'],
+        datasets: [{
+          //Descripción de la data     
+          data: [300, 50, 100],
+          backgroundColor: [
+            '#ff6384',
+            '#36a2eb',
+            '#ffce56'
+          ],
+          hoverOffset: 4
+        }]
+      };
+      const configTorta = {
+        type: 'pie',
+        data: dataTorta,
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              position: 'top',
+            },
+          }
+        },
+      };
+    
+    
+    
+      var ctx = document.getElementById('tortaChart').getContext('2d');
+      var lineasChart = new Chart(ctx, configTorta);
+    
+      // Grafica de lineas
+      const data = {
+        labels: ['Día 1', 'Día 2', 'Día 3', 'Día 4', 'Día 5', 'Día 6'],
+        datasets: [
+          {
+            label: 'Tareas Finalizadas',
+            data: [6, -2, 3, 15, 11, 4],
+            borderColor: 'rgba(70, 191, 191, 1)',
+            backgroundColor: 'rgba(70, 191, 191, 0.5)',
+            pointStyle: 'circle',
+            pointRadius: 20,
+            pointHoverRadius: 15
+          }
+        ]
+      };
+    
+      const config = {
+        type: 'line',
+        data: data,
+        options: {
+          responsive: true,
+        }
+      };
+    
+      var ctx = document.getElementById('lineasChart').getContext('2d');
+      var lineasChart = new Chart(ctx, config);
+
+    });
+    
+  </script>
+</body>
+</html>
